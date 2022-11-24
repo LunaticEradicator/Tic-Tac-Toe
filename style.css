@@ -24,16 +24,18 @@ h1 {
 
 }
 
-.eachPiece {
+.cell {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     background-color: rgb(211, 210, 210);
     cursor: pointer;
     /* border: 1px solid rgb(0, 0, 0); */
-    transition: 0.2s;
+    /* transition: 0.2s; */
 }
 
-.eachPiece:hover {
-    transform: scale(1.05);
-    border: 1px solid rosybrown;
+.cell:hover {
+    /* transform: scale(1.05); */
+    border: 2px solid rosybrown;
+    border-left: none;
+    border-top: none;
 }
