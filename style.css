@@ -4,6 +4,36 @@ body {
 
 h1 {
     text-align: center;
-    font-size: 2rem;
+    font-size: 4rem;
     color: rgb(13, 5, 61);
+}
+
+.display {
+    display: grid;
+    justify-content: center;
+}
+
+
+.gameBoard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    background-color: rosybrown;
+    width: 450px;
+    height: 400px;
+
+}
+
+.eachPiece {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: rgb(211, 210, 210);
+    cursor: pointer;
+    /* border: 1px solid rgb(0, 0, 0); */
+    transition: 0.2s;
+}
+
+.eachPiece:hover {
+    transform: scale(1.05);
+    border: 1px solid rosybrown;
 }
