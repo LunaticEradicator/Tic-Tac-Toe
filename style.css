@@ -34,8 +34,8 @@ h1 {
 }
 
 .cell:hover {
-    /* transform: scale(1.05); */
-    border: 2px solid rosybrown;
+    /* transform: scale(1.02); */
+    /* border: 1px solid rosybrown; */
     border-left: none;
     border-top: none;
 }

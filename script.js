@@ -17,37 +17,31 @@ let playerTwo = createPlayer("PlayerTwo");
 
 let signArray = GameBoard.gameBoard;
 let isClicked = false; // only can press a SinglePiece
-let isSwitch = false; // to switch player
+let isSwitchSign = false; // to switch player
+
 
 for (let cells of cell) {
-    if (!isClicked) {
-        isClicked = true;
-        cells.addEventListener("click", e => {
-            if (!isSwitch) {
-                isSwitch = true
-                GameBoard.swapElement(signArray);
-                cells.textContent = signArray[0];
-                playerOne.sign = cells.textContent;
-                console.log("First Player");
-                console.log("------------------------------------------------------");
-            }
-        })
-    }
-    else {
-        isClicked = false;
-        console.log
-        cells.addEventListener("click", e => {
-            if (isSwitch) {
-                isSwitch = false
-                GameBoard.swapElement(signArray);
-                cells.textContent = signArray[0];
-                playerTwo.sign = cells.textContent;
-                console.log("Second Player");
-                console.log("------------------------------------------------------");
-            }
-        })
-    }
+    cells.addEventListener("click", e => {
+        if (!isSwitchSign) {
+            isSwitchSign = true
+            GameBoard.swapElement(signArray);
+            cells.textContent = signArray[0];
+            playerOne.sign = cells.textContent;
+            console.log("First Player");
+            console.log("------------------------------------------------------");
+        }
+        else {
+            isSwitchSign = false;
+            GameBoard.swapElement(signArray);
+            cells.textContent = signArray[0];
+            playerTwo.sign = cells.textContent;
+            console.log("Second Player");
+            console.log("------------------------------------------------------");
+        }
+    }, { once: true }) // so that each cell will only take one sign and switch player 
 }
+
+
 // if (!isClicked) {
 //     isClicked = true;
 // }
@@ -60,6 +54,34 @@ for (let cells of cell) {
 
 function switchPlayer() {
 
+}
+
+function DisplaySign() {
+    for (let cells of cell) {
+        cells.addEventListener("click", e => {
+
+            if (!isSwitchSign) {
+                isSwitchSign = true
+                GameBoard.swapElement(signArray);
+                cells.textContent = signArray[0];
+                playerOne.sign = cells.textContent;
+                console.log("First Player");
+                console.log("------------------------------------------------------");
+            }
+
+
+            else if (isSwitchSign) {
+                isSwitchSign = false;
+                GameBoard.swapElement(signArray);
+                cells.textContent = signArray[0];
+                playerTwo.sign = cells.textContent;
+                console.log("Second Player");
+                console.log("------------------------------------------------------");
+            }
+
+
+        })
+    }
 }
 
 //Player Swap Using Destructing
@@ -108,4 +130,42 @@ function switchPlayer() {
 //             console.log("Second Player");
 //         }
 //     })
+// }
+
+
+
+// fix
+
+// let signArray = GameBoard.gameBoard;
+// let isClicked = false; // only can press a SinglePiece
+// let isSwitch = false; // to switch play
+
+// for (let cells of cell) {
+//     if (!isClicked) {
+//         isClicked = true;
+//         cells.addEventListener("click", e => {
+//             if (!isSwitch) {
+//                 isSwitch = true
+//                 GameBoard.swapElement(signArray);
+//                 cells.textContent = signArray[0];
+//                 playerOne.sign = cells.textContent;
+//                 console.log("First Player");
+//                 console.log("------------------------------------------------------");
+//             }
+//         })
+//     }
+//     else {
+//         isClicked = false;
+//         console.log
+//         cells.addEventListener("click", e => {
+//             if (isSwitch) {
+//                 isSwitch = false
+//                 GameBoard.swapElement(signArray);
+//                 cells.textContent = signArray[0];
+//                 playerTwo.sign = cells.textContent;
+//                 console.log("Second Player");
+//                 console.log("------------------------------------------------------");
+//             }
+//         })
+//     }
 // }
