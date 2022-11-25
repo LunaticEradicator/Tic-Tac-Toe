@@ -1,6 +1,6 @@
 // when the player click
 // if the pattern is correct
-// condition is needde
+// condition is needed
 
 const cell = document.querySelectorAll(".cell");
 
@@ -22,52 +22,122 @@ let playerOne = createPlayer("PlayerOne");
 let playerTwo = createPlayer("PlayerTwo");
 let signArray = Game.gameBoard;
 let isSwitchSign = false; // to switch player
-let pos = 0;
+let cellPosition = 0;
+
+function CellsPosition() {
+
+}
 
 
 for (let cells of cell) {
     cells.addEventListener("click", e => {
-        pos = e.target.id;
-        pos = +pos; // + converts the string to int
-        Game.idSignArray[pos] = pos; // insert the value to array at specific position 
+        cellPosition = e.target.id;
+        cellPosition = +cellPosition; // + converts the string to int
+        Game.idSignArray[cellPosition] = cellPosition; // insert the value to array at specific position 
+
         // console.log(`ID : ${e.target.id}`)
         // console.log(typeof (idCollector));
-        console.log(`ID Position : ${pos}`)
+        console.log(`Cell Position : ${cellPosition}`)
         console.log(Game.idSignArray);
 
 
         if (!isSwitchSign) {
             isSwitchSign = true
             Game.swapElement(signArray);
-            cells.textContent = signArray[0];
+            cells.textContent = signArray[0]; // select the first sign item and then flips it
             playerOne.sign = cells.textContent;
 
-            Game.playerSignArray[pos] = playerOne.sign;
+            Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
             // GameBoard.playerSignArray.splice(pos++, 0, playerOne.sign);
             // GameBoard.newArray.push(playerOne.sign);
 
+            playerOneGameLogic(playerOne);
+            console.log("First Player Position");
             console.log(Game.playerSignArray);
-            console.log("First Player");
             console.log("------------------------------------------------------");
         }
         else {
             isSwitchSign = false;
             Game.swapElement(signArray);
-            cells.textContent = signArray[0];
+            cells.textContent = signArray[0]; // select the first sign item and then flips it
             playerTwo.sign = cells.textContent;
 
-            Game.playerSignArray[pos] = playerTwo.sign;
+            Game.playerSignArray[cellPosition] = playerTwo.sign;
             // GameBoard.playerSignArray.splice(pos++, 0, playerTwo.sign);
             // GameBoard.newArray.push(playerTwo.sign);
 
-            console.log("Second Player");
+            // if (Game.playerSignArray.includes(playerTwo.sign)) {
+            //     console.log("nice!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            // }
+
+            playerOneGameLogic(playerTwo);
+
+            console.log("Second Player Position");
             console.log(Game.playerSignArray);
             console.log("------------------------------------------------------");
         }
+
+        // Game Logic
+        // if (Game.idSignArray === 0) {
+        //     alert("Winner")
+        // }
+
+        // console.log(playerOne.sign);
+        // console.log(playerTwo.sign);
+
+
+
+        // if (Game.idSignArray.includes(0) && Game.idSignArray.includes(1) && Game.idSignArray.includes(2) ) {
+        //     alert("Winner");
+        // }
+
     }, { once: true }) // so that each cell will only take one sign and switch player 
 }
 
 
+
+function playerOneGameLogic(player) {
+
+    if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign) {
+        alert(`!!!!!!!!!!!!!!!!!!!WINNER  ${player.sign}`)
+    }
+    else if (Game.playerSignArray[3] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[5] === player.sign) {
+        alert(`!!!!!!!!!!!!!!!!!!!WINNER ${player.sign}`)
+    }
+    else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[7] === player.sign && Game.playerSignArray[8] === player.sign) {
+        alert(`"!!!!!!!!!!!!!!!!!!!WINNER  ${player.sign}`)
+    }
+    //vertical
+    else if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[3] === player.sign && Game.playerSignArray[6] === player.sign) {
+        alert(`!!!!!!!!!!!!!!!!!!!WINNER  ${player.sign}`)
+    }
+    else if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[7] === player.sign) {
+        alert(`!!!!!!!!!!!!!!!!!!!WINNER  ${player.sign}`)
+    }
+    else if (Game.playerSignArray[2] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[8] === player.sign) {
+        alert(`!!!!!!!!!!!!!!!!!!!WINNER  ${player.sign}`)
+    }
+    //Diagonal
+    else if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[8] === player.sign) {
+        alert(`!!!!!!!!!!!!!!!!!!!WINNER  ${player.sign}`)
+    }
+    else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[2] === player.sign) {
+        alert(`!!!!!!!!!!!!!!!!!!!WINNER  ${player.sign}`)
+    }
+
+
+    // switch (player) {
+    //     case [0] === player.sign && Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign:
+    //         alert(`!!!!!!!!!!!!!!!!!!!WINNER  ${player.sign}`)
+    //         break;
+
+    //     default:
+    //         // alert(`Not Winner`)
+    //         break;
+    // }
+
+    // horizontal
+}
 
 function switchPlayer() {
 
