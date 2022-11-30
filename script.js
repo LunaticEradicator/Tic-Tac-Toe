@@ -3,13 +3,20 @@
 // condition is needed
 
 const cell = document.querySelectorAll(".cell");
+const startBtn = document.querySelector(".startBtn");
 const restartBtn = document.querySelector(".restartBtn");
+const section = document.querySelector(".section");
+const display = document.querySelector(".display");
+const scoreOne = document.querySelector(".scoreOne");
+const scoreTwo = document.querySelector(".scoreTwo");
+
+
 
 const Game = {
     gameBoard: ["o", "x"],
     swapElement(array) { // to swap the value using destructor
         [this.gameBoard[0], this.gameBoard[1]] = [this.gameBoard[1], this.gameBoard[0]];
-        console.log(` SwapElements !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: ${this.gameBoard}`);
+        // console.log(` SwapElements !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: ${this.gameBoard}`);
     },
     playerSignArray: [],
     idSignArray: []
@@ -26,13 +33,17 @@ let isSwitchSign = false; // to switch player
 let cellPosition = 0;
 let arrayLength = 0;
 let isDraw = false; // checking for draw
+let playerOneScore = 0;
+let playerTwoScore = 0;
 
 
 function PlayGame(e) {
-    signArray = Game.gameBoard; // to make playerOne select "x" after restart
 
-    console.log(`SignArray Before the flip`);
-    console.log(signArray);
+    signArray = Game.gameBoard; // to make playerOne select "x" after restart
+    console.log(`playerOneScore ${playerOneScore}`)
+    console.log(`playerTwoScore ${playerTwoScore}`)
+    // console.log(`SignArray Before the flip`);
+    // console.log(signArray);
 
     arrayLength++;
     console.log(`ArrayLength : ${arrayLength}`);
@@ -50,11 +61,10 @@ function PlayGame(e) {
         this.textContent = signArray[0]; // select the first sign item and then flips it
         playerOne.sign = this.textContent;
         Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
-        gameLogic(playerOne);
+        gameLogic(playerOne, scoreOne);
         console.log("First Player Position");
-        // console.log(Game.playerSignArray);
-        console.log(`SignArray After the flip`);
-        console.log(signArray);
+        // console.log(`SignArray After the flip`);
+        // console.log(signArray);
 
         console.log("------------------------------------------------------");
     }
@@ -63,14 +73,11 @@ function PlayGame(e) {
         Game.swapElement(signArray);
         this.textContent = signArray[0]; // select the first sign item and then flips it
         playerTwo.sign = this.textContent;
-
         Game.playerSignArray[cellPosition] = playerTwo.sign;
-        gameLogic(playerTwo);
-
+        gameLogic(playerTwo, scoreTwo);
         console.log("Second Player Position");
-        // console.log(Game.playerSignArray);
-        console.log(`SignArray After the flip`);
-        console.log(signArray);
+        // console.log(`SignArray After the flip`);
+        // console.log(signArray);
         console.log("------------------------------------------------------");
     }
 }
@@ -92,46 +99,64 @@ for (let cells of cell) {
 
 }
 
+function roundScore(player, playerUI) {
+    if (player === playerOne) {
+        playerOneScore++;
+        playerUI.textContent = playerOneScore;
+        console.log(`PlayerOne : ${playerOneScore}`);
+    }
+    else if (player === playerTwo) {
+        playerTwoScore++;
+        playerUI.textContent = playerTwoScore;
+        console.log(`PlayerTwo : ${playerTwoScore}`);
+    }
+}
 
-function gameLogic(player) {
+function gameLogic(player, playerUI) {
     if (!isDraw) {
         //Horizontal
         if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign) {
             isDraw = true;
+            roundScore(player, playerUI);
             alert(`${player.sign} is the Winner`)
         }
         else if (Game.playerSignArray[3] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[5] === player.sign) {
             isDraw = true;
+            roundScore(player, playerUI);
             alert(`${player.sign} is the Winner`)
-
         }
         else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[7] === player.sign && Game.playerSignArray[8] === player.sign) {
             isDraw = true;
+            roundScore(player, playerUI);
             alert(`${player.sign} is the Winner`)
-
         }
 
         //vertical
         else if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[3] === player.sign && Game.playerSignArray[6] === player.sign) {
             isDraw = true;
+            roundScore(player, playerUI);
             alert(`${player.sign} is the Winner`)
         }
         else if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[7] === player.sign) {
             isDraw = true;
+            roundScore(player, playerUI);
             alert(`${player.sign} is the Winner`)
         }
         else if (Game.playerSignArray[2] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[8] === player.sign) {
             isDraw = true;
+            roundScore(player, playerUI);
             alert(`${player.sign} is the Winner`)
         }
 
         //Diagonal
         else if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[8] === player.sign) {
             isDraw = true;
+            roundScore(player, playerUI);
             alert(`${player.sign} is the Winner`)
         }
         else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[2] === player.sign) {
             isDraw = true;
+            roundScore(player, playerUI);
             alert(`${player.sign} is the Winner`)
         }
 
@@ -146,6 +171,14 @@ function gameLogic(player) {
 function restartGame() {
 
 }
+
+
+startBtn.addEventListener("click", e => {
+    startBtn.style.opacity = 0;
+    section.style.visibility = "visible";
+    section.style.opacity = 100;
+    // alert("clicked")
+})
 
 // function DisplaySign() {
 //     for (let cells of cell) {
