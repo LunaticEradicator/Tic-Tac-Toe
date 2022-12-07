@@ -7,7 +7,15 @@ body {
     font-family: 'Courier New', Courier, monospace;
 }
 
+
+.menuDiv,
+.menuBtn {
+    display: flex;
+    /* justify-content: center; */
+}
+
 h1 {
+    display: inline-flexbox;
     text-align: center;
     font-size: 4rem;
     margin: 0;
@@ -17,6 +25,8 @@ h1 {
 h2 {
     font-size: 2.5rem;
 }
+
+
 
 .display {
     display: flex;
@@ -77,9 +87,9 @@ h2 {
     font-size: 2rem;
 }
 
-.restartDiv {
-    visibility: hidden;
-    opacity: 0;
+.menuDiv {
+    /* visibility: hidden; */
+    /* opacity: 0; */
     transition: var(--transition-Time);
 }
 
@@ -87,20 +97,19 @@ h2 {
     font-size: 5rem;
     color: rgb(0, 0, 0);
     transition: var(--transition-Time);
-    /* visibility: hidden; */
-    /* opacity: 0; */
+    visibility: hidden;
+    opacity: 0;
 }
 
-.restartBtn {
+.menuBtn {
+    cursor: pointer;
     font-family: 'Courier New', Courier, monospace;
-    transition: 1s;
-    margin-top: 10px;
     text-align: center;
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 1.5rem;
     border-radius: 20px;
-    padding: 30px;
-    border: 4px solid rgb(15, 15, 15);
+    padding: 10px;
+    border: 2px solid rgb(15, 15, 15);
     transition: var(--transition-Time);
     /* opacity: 0; */
 }

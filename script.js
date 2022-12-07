@@ -5,8 +5,8 @@
 const cell = document.querySelectorAll(".cell");
 const startBtn = document.querySelector(".startBtn");
 const startBtnDiv = document.querySelector(".startBtnDiv");
-const restartBtn = document.querySelector(".restartBtn");
-const restartDiv = document.querySelector(".restartDiv");
+const menuBtn = document.querySelector(".menuBtn");
+const menuDiv = document.querySelector(".menuDiv");
 const section = document.querySelector(".section");
 const display = document.querySelector(".display");
 const scoreOne = document.querySelector(".scoreOne");
@@ -40,7 +40,7 @@ let playerTwoScore = 0;
 
 const winnerUi = document.createElement("div");
 winnerUi.classList.add("winnerUi");
-restartDiv.append(winnerUi);
+section.append(winnerUi);
 
 
 function PlayGame(e) {
@@ -133,6 +133,7 @@ function nice() {
 }
 
 function restart() {
+    // alert("RESTARTNG");
     for (let cells of cell) {
         console.clear();
         cells.removeEventListener("click", PlayGame, { once: true });
@@ -150,25 +151,25 @@ function restart() {
 
 }
 
+let isNice = false;
 function gameLogic(player, playerUI) {
     if (!isDraw) {
         //Horizontal
         if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            for (let cells of cell) {
-                cells.removeEventListener("click", PlayGame, { once: true });      //fix this
 
+            for (let cells of cell) {
+                cells.removeEventListener("click", PlayGame, { once: true });      //stops the game
+                setTimeout(restart, 1300);
+                // cells.addEventListener("click", restart);                  // fix this?
             }
 
-
-            // restart()
-            setTimeout(restart, 1500);
             console.log(player.name)
 
             winnerUi.textContent = `${player.name} is the Winner`;
-            restartDiv.style.visibility = "visible";
-            restartDiv.style.opacity = 100;
+            winnerUi.style.visibility = "visible";
+            winnerUi.style.opacity = 100;
             // restartBtn.style.opacity = 100;
             // winnerUi.style.visibility = "visible";
             // winnerUi.style.opacity = 100;
@@ -262,7 +263,7 @@ startBtn.addEventListener("click", e => {
     section.style.opacity = 100;
 })
 
-restartBtn.addEventListener("click", e => {
+menuBtn.addEventListener("click", e => {
     startBtnDiv.style.visibility = "visible";
     for (let spans of span) {
         spans.style.opacity = 100;
