@@ -1,3 +1,7 @@
+:root {
+    --transition-Time: 1s;
+}
+
 body {
     background-color: rgb(209, 207, 207);
     font-family: 'Courier New', Courier, monospace;
@@ -34,9 +38,7 @@ h2 {
     transition: 1s;
 }
 
-.restartBtn {
-    width: 451px;
-}
+
 
 
 .gameBoard {
@@ -75,18 +77,32 @@ h2 {
     font-size: 2rem;
 }
 
-.restartBtn {
-    font-family: 'Courier New', Courier, monospace;
+.restartDiv {
+    visibility: hidden;
+    opacity: 0;
+    transition: var(--transition-Time);
+}
+
+.winnerUi {
+    font-size: 5rem;
+    color: rgb(0, 0, 0);
+    transition: var(--transition-Time);
+    /* visibility: hidden; */
+    /* opacity: 0; */
 }
 
 .restartBtn {
+    font-family: 'Courier New', Courier, monospace;
+    transition: 1s;
+    margin-top: 10px;
     text-align: center;
     font-weight: bold;
-    font-size: 4rem;
+    font-size: 3rem;
     border-radius: 20px;
     padding: 30px;
-    /* margin-top: 10px; */
     border: 4px solid rgb(15, 15, 15);
+    transition: var(--transition-Time);
+    /* opacity: 0; */
 }
 
 .startBtnDiv {
@@ -98,6 +114,7 @@ h2 {
     top: 40%;
     width: 20%;
     gap: 20px;
+    /* transition: 0.7s; */
 }
 
 .startBtn {
@@ -108,15 +125,12 @@ h2 {
     border: 4px solid rgb(10, 10, 10);
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
+    cursor: pointer;
+    /* transition: 0.7s; */
 }
 
 span {
     font-size: 12rem;
     font-family: 'Courier New', Courier, monospace;
     color: rgb(131, 130, 130);
-}
-
-.winnerUi {
-    font-size: 7rem;
-    color: rgb(0, 0, 0);
 }

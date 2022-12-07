@@ -6,6 +6,7 @@ const cell = document.querySelectorAll(".cell");
 const startBtn = document.querySelector(".startBtn");
 const startBtnDiv = document.querySelector(".startBtnDiv");
 const restartBtn = document.querySelector(".restartBtn");
+const restartDiv = document.querySelector(".restartDiv");
 const section = document.querySelector(".section");
 const display = document.querySelector(".display");
 const scoreOne = document.querySelector(".scoreOne");
@@ -36,18 +37,16 @@ let arrayLength = 0;
 let isDraw = false; // checking for draw
 let playerOneScore = 0;
 let playerTwoScore = 0;
+
 const winnerUi = document.createElement("div");
 winnerUi.classList.add("winnerUi");
-section.append(winnerUi);
+restartDiv.append(winnerUi);
 
 
 function PlayGame(e) {
-
-
-
     signArray = Game.gameBoard; // to make playerOne select "x" after restart
-    console.log(`playerOneScore ${playerOneScore}`)
-    console.log(`playerTwoScore ${playerTwoScore}`)
+    // console.log(`playerOneScore ${playerOneScore}`)
+    // console.log(`playerTwoScore ${playerTwoScore}`)
     // console.log(`SignArray Before the flip`);
     // console.log(signArray);
 
@@ -97,11 +96,16 @@ function PlayGame(e) {
     }
 }
 
-for (let cells of cell) {
+
+
+
+
+cell.forEach(cells => {
     cells.addEventListener("click", PlayGame, { once: true }); // Third Parameter - Makes selection once per player
-    restartBtn.addEventListener("click", e => {
-        cells.removeEventListener("click", PlayGame, { once: true });
+
+    function restartLevel() {
         console.clear();
+        cells.removeEventListener("click", PlayGame, { once: true });
         cells.textContent = "";
         arrayLength = 0;
         Game.playerSignArray = [];
@@ -110,22 +114,40 @@ for (let cells of cell) {
         isDraw = false;
         Game.gameBoard = ["o", "x"];
         winnerUi.textContent = "";
+
+        scoreOne.textContent = 0;
+        scoreTwo.textContent = 0;
+        playerOneScore = 0;
+        playerTwoScore = 0;
+
+        console.log(Game.playerSignArray);
         cells.addEventListener("click", PlayGame, { once: true });
-    })
+
+        // restartDiv.style.visibility = "visible";
+        // restartBtn.style.opacity = 100;
+    }
+})
+
+function nice() {
 
 }
 
-function roundScore(player, playerUI) {
-    if (player === playerOne) {
-        playerOneScore++;
-        playerUI.textContent = playerOneScore;
-        console.log(`PlayerOne : ${playerOneScore}`);
+function restart() {
+    for (let cells of cell) {
+        console.clear();
+        cells.removeEventListener("click", PlayGame, { once: true });
+        cells.textContent = "";
+        arrayLength = 0;
+        Game.playerSignArray = [];
+        Game.idSignArray = [];
+        isSwitchSign = false;
+        isDraw = false;
+        Game.gameBoard = ["o", "x"];
+        winnerUi.textContent = "";
+        console.log(Game.playerSignArray);
+        cells.addEventListener("click", PlayGame, { once: true });
     }
-    else if (player === playerTwo) {
-        playerTwoScore++;
-        playerUI.textContent = playerTwoScore;
-        console.log(`PlayerTwo : ${playerTwoScore}`);
-    }
+
 }
 
 function gameLogic(player, playerUI) {
@@ -134,21 +156,35 @@ function gameLogic(player, playerUI) {
         if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            winnerUi.textContent = `${player.name} is the Winner`
+            for (let cells of cell) {
+                cells.removeEventListener("click", PlayGame, { once: true });      //fix this
+
+            }
+
+
+            // restart()
+            setTimeout(restart, 1500);
             console.log(player.name)
+
+            winnerUi.textContent = `${player.name} is the Winner`;
+            restartDiv.style.visibility = "visible";
+            restartDiv.style.opacity = 100;
+            // restartBtn.style.opacity = 100;
+            // winnerUi.style.visibility = "visible";
+            // winnerUi.style.opacity = 100;
 
         }
         else if (Game.playerSignArray[3] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[5] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
             // alert(`${player.sign} is the Winner`)
-            winnerUi.textContent = `${player.name} is the Winner`
+            winnerUi.textContent = `${player.name} is the Winner`;
         }
         else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[7] === player.sign && Game.playerSignArray[8] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
             // alert(`${player.sign} is the Winner`)
-            winnerUi.textContent = `${player.name} is the Winner`
+            winnerUi.textContent = `${player.name} is the Winner`;
         }
 
         //vertical
@@ -191,15 +227,33 @@ function gameLogic(player, playerUI) {
             alert("Round Draw");
         }
     }
+
+};
+
+
+
+
+
+
+
+
+function roundScore(player, playerUI) {
+    if (player === playerOne) {
+        playerOneScore++;
+        playerUI.textContent = playerOneScore;
+        console.log(`PlayerOne : ${playerOneScore}`);
+    }
+    else if (player === playerTwo) {
+        playerTwoScore++;
+        playerUI.textContent = playerTwoScore;
+        console.log(`PlayerTwo : ${playerTwoScore}`);
+    }
 }
 
-function restartGame() {
-
-}
 
 
 startBtn.addEventListener("click", e => {
-    startBtn.style.opacity = 0;
+    // startBtn.style.opacity = 0;
     startBtnDiv.style.visibility = "hidden";
     for (let spans of span) {
         spans.style.opacity = 0;
@@ -207,6 +261,16 @@ startBtn.addEventListener("click", e => {
     section.style.visibility = "visible";
     section.style.opacity = 100;
 })
+
+restartBtn.addEventListener("click", e => {
+    startBtnDiv.style.visibility = "visible";
+    for (let spans of span) {
+        spans.style.opacity = 100;
+    }
+    section.style.visibility = "hidden";
+    section.style.opacity = 0;
+});
+
 
 
 
