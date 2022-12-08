@@ -37,10 +37,17 @@ let arrayLength = 0;
 let isDraw = false; // checking for draw
 let playerOneScore = 0;
 let playerTwoScore = 0;
+let isOver = false;
+
 
 const winnerUi = document.createElement("div");
 winnerUi.classList.add("winnerUi");
 section.append(winnerUi);
+// winnerUi.textContent = `winner is the Winner`;
+// winnerUi.style.visibility = "visible";
+// winnerUi.style.opacity = 100;
+
+
 
 
 function PlayGame(e) {
@@ -61,10 +68,6 @@ function PlayGame(e) {
     console.log(Game.idSignArray);
 
     if (!isSwitchSign) { // switching between player
-        const winnerUi = document.createElement("div");
-        winnerUi.classList.add("winnerUi");
-        section.append(winnerUi);
-
         isSwitchSign = true
         Game.swapElement(signArray);
         this.textContent = signArray[0]; // select the first sign item and then flips it
@@ -79,10 +82,6 @@ function PlayGame(e) {
         console.log("------------------------------------------------------");
     }
     else {
-        const winnerUi = document.createElement("div");
-        winnerUi.classList.add("winnerUi");
-        section.append(winnerUi);
-
         isSwitchSign = false;
         Game.swapElement(signArray);
         this.textContent = signArray[0]; // select the first sign item and then flips it
@@ -97,13 +96,47 @@ function PlayGame(e) {
 }
 
 
-
-
-
 cell.forEach(cells => {
     cells.addEventListener("click", PlayGame, { once: true }); // Third Parameter - Makes selection once per player
+})
 
-    function restartLevel() {
+
+function resetValue() {
+    for (let cells of cell) {
+        console.clear();
+        cells.removeEventListener("click", PlayGame, { once: true });
+        cells.textContent = "";
+        arrayLength = 0;
+        Game.playerSignArray = [];
+        Game.idSignArray = [];
+        isSwitchSign = false;
+        isDraw = false;
+        Game.gameBoard = ["o", "x"];
+        cells.addEventListener("click", PlayGame, { once: true });
+        // winnerUi.textContent = ""; // transition won't work
+        winnerUi.style.visibility = "hidden";
+        winnerUi.style.opacity = 0;
+        console.log(Game.playerSignArray);
+
+    }
+}
+
+function restartLevel() {
+    for (let cells of cell) {
+        isOver = false; // reset Game Over to false     // manual restart
+        cells.addEventListener("click", e => {
+            if (!isOver) {
+                resetValue();
+                isOver = true;
+            }
+        })
+    }
+}
+
+function restartGame() {
+    for (let cells of cell) {
+
+
         console.clear();
         cells.removeEventListener("click", PlayGame, { once: true });
         cells.textContent = "";
@@ -123,57 +156,29 @@ cell.forEach(cells => {
         console.log(Game.playerSignArray);
         cells.addEventListener("click", PlayGame, { once: true });
 
-        // restartDiv.style.visibility = "visible";
-        // restartBtn.style.opacity = 100;
-    }
-})
 
-function nice() {
-
-}
-
-function restart() {
-    // alert("RESTARTNG");
-    for (let cells of cell) {
-        console.clear();
-        cells.removeEventListener("click", PlayGame, { once: true });
-        cells.textContent = "";
-        arrayLength = 0;
-        Game.playerSignArray = [];
-        Game.idSignArray = [];
-        isSwitchSign = false;
-        isDraw = false;
-        Game.gameBoard = ["o", "x"];
-        winnerUi.textContent = "";
-        console.log(Game.playerSignArray);
-        cells.addEventListener("click", PlayGame, { once: true });
+        // winnerUi.style.opacity = 0;
     }
 
 }
 
-let isNice = false;
+
 function gameLogic(player, playerUI) {
     if (!isDraw) {
         //Horizontal
         if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-
             for (let cells of cell) {
                 cells.removeEventListener("click", PlayGame, { once: true });      //stops the game
-                setTimeout(restart, 1300);
-                // cells.addEventListener("click", restart);                  // fix this?
+                winnerUi.textContent = `${player.name} is the Winner`;
+                winnerUi.style.visibility = "visible";
+                winnerUi.style.opacity = 100;
+                restartLevel()
+                // setTimeout(restartLevel, 2000);              // dynamic restart
             }
-
-            console.log(player.name)
-
-            winnerUi.textContent = `${player.name} is the Winner`;
-            winnerUi.style.visibility = "visible";
-            winnerUi.style.opacity = 100;
-            // restartBtn.style.opacity = 100;
-            // winnerUi.style.visibility = "visible";
-            // winnerUi.style.opacity = 100;
-
+            // console.log(player.name)
+            // console.log(isDraw)
         }
         else if (Game.playerSignArray[3] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[5] === player.sign) {
             isDraw = true;
@@ -251,12 +256,15 @@ function roundScore(player, playerUI) {
     }
 }
 
-
+// for (let cells of cell) { 
+//     cells.removeEventListener("click", PlayGame, { once: true });
+// }
 
 startBtn.addEventListener("click", e => {
-    // startBtn.style.opacity = 0;
     startBtnDiv.style.visibility = "hidden";
-    for (let spans of span) {
+    startBtn.style.visibility = "hidden";
+
+    for (let spans of span) { //startButton Styling
         spans.style.opacity = 0;
     }
     section.style.visibility = "visible";
@@ -265,11 +273,15 @@ startBtn.addEventListener("click", e => {
 
 menuBtn.addEventListener("click", e => {
     startBtnDiv.style.visibility = "visible";
-    for (let spans of span) {
+    startBtn.style.visibility = "visible";
+
+
+    for (let spans of span) { //startButton Styling
         spans.style.opacity = 100;
     }
     section.style.visibility = "hidden";
     section.style.opacity = 0;
+    restartGame();
 });
 
 
