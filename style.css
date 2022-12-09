@@ -1,9 +1,12 @@
 :root {
     --transition-Time: 0.6s;
+    --font-color: aliceblue;
+    /* color: rgb(44, 214, 129); */
 }
 
 body {
-    background-color: rgb(209, 207, 207);
+    /* background-color: rgb(196, 193, 193); */
+    background-color: rgb(59, 58, 58);
     font-family: 'Courier New', Courier, monospace;
 }
 
@@ -19,11 +22,12 @@ h1 {
     text-align: center;
     font-size: 4rem;
     margin: 0;
-    color: rgb(13, 5, 61);
+    color: var(--font-color);
 }
 
 h2 {
     font-size: 2.5rem;
+    color: var(--font-color);
 }
 
 
@@ -52,9 +56,10 @@ h2 {
 .gameBoard {
     display: grid;
     gap: 5px;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
     background-color: rgb(82, 74, 74);
     width: 600px;
+    /* border: 2px solid rgb(199, 171, 171); */
 }
 
 .cell {
@@ -66,12 +71,10 @@ h2 {
     font-size: 7rem;
     height: 200px;
     color: rgb(131, 130, 130);
+    transition: all 0.3s;
 }
 
-.cell:hover {
-    border-left: none;
-    border-top: none;
-}
+
 
 .playerOneScore,
 .playerTwoScore {
@@ -83,6 +86,8 @@ h2 {
 .scoreOne,
 .scoreTwo {
     font-size: 2rem;
+    color: var(--font-color);
+    transition: var(--transition-Time);
 }
 
 .menuDiv {
@@ -90,8 +95,9 @@ h2 {
 }
 
 .winnerUi {
-    font-size: 5rem;
-    color: rgb(0, 0, 0);
+    margin-top: 50px;
+    font-size: 6rem;
+    color: var(--font-color);
     visibility: hidden;
     opacity: 0;
     transition: all var(--transition-Time);
@@ -107,7 +113,7 @@ h2 {
     border-radius: 20px;
     padding: 10px;
     border: 2px solid rgb(15, 15, 15);
-    transition: var(--transition-Time);
+    transition: all 0.3s;
     /* opacity: 0; */
 }
 
@@ -132,11 +138,37 @@ h2 {
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     cursor: pointer;
-    /* transition: 0.7s; */
+    transition: 0.3s;
+    /* background-color: rgb(61, 233, 147); */
+
 }
 
 span {
     font-size: 12rem;
     font-family: 'Courier New', Courier, monospace;
+}
+
+.x {
+    color: rgb(135, 135, 252);
+}
+
+.o {
+    color: rgb(248, 115, 115);
+}
+
+.startBtnDiv>first-child {
     color: rgb(131, 130, 130);
+}
+
+.cell:hover {
+    border-left: none;
+    border-top: none;
+    transform: scale(0.9);
+}
+
+.startBtn:hover {
+    transform: scale(1.05);
+    color: ghostwhite;
+    background-color: black;
+    border: 4px solid rgb(255, 255, 255);
 }
