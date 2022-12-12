@@ -1,7 +1,5 @@
 // when the player click
-// if the pattern is correct
-// condition is needed
-
+// ai should work [should go through cells and marks at a random position automatically]
 const cell = document.querySelectorAll(".cell");
 const startBtn = document.querySelector(".startBtn");
 const startBtnDiv = document.querySelector(".startBtnDiv");
@@ -58,60 +56,128 @@ section.append(winnerUi);
 // winnerUi.style.opacity = 100;
 
 
+// cell.forEach(cells => {
+//     cells.addEventListener("click", PlayGamePVP, { once: true }); // Third Parameter - Makes selection once per player
+// })
+
+// function PlayGamePVP(e) {
+//     console.log(this)// this = cells
+//     signArray = Game.gameBoard; // to make playerOne select "x" after restart
+//     // console.log(`playerOneScore ${playerOneScore}`)
+//     // console.log(`playerTwoScore ${playerTwoScore}`)
+//     // console.log(`SignArray Before the flip`);
+//     // console.log(signArray);
+
+//     roundsPlayed++; // for draw condition 
+//     console.log(`ArrayLength : ${roundsPlayed}`);
+
+//     cellPosition = e.target.id; // id of the html element
+//     cellPosition = +cellPosition; // + converts the string to int
+//     Game.idSignArray[cellPosition] = cellPosition; // insert the value to array at specific position
+
+//     // console.log(`Cell Position : ${cellPosition}`)
+//     // console.log(Game.idSignArray);
+
+//     // Player Switching
+//     if (!isSwitchSign) { // Player One
+//         isSwitchSign = true
+//         Game.swapElement(signArray);
+//         this.textContent = signArray[0]; // select the first sign item and then flips it
+//         playerOne.sign = this.textContent;
+//         Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
+//         gameLogic(playerOne, scoreOne);
+
+//         // console.log(`SignArray After the flip`);
+//         this.style.color = "rgb(90, 90, 230)";
+//         console.log("First Player Position");
+//         console.log(Game.playerSignArray);
+//         console.log("------------------------------------------------------ PLayer One ");
+
+//     }
+//     else { // Player Two [ //give a random position to playerTwo.sign [automatically work when player plays]]
+
+//         isSwitchSign = false;
+//         Game.swapElement(signArray);
+//         this.textContent = signArray[0]; // select the first sign item and then flips it
+//         playerTwo.sign = this.textContent; // selects o for second player
+//         Game.playerSignArray[cellPosition] = playerTwo.sign;
+//         gameLogic(playerTwo, scoreTwo);
+
+//         // console.log(`SignArray After the flip`);
+//         this.style.color = "rgb(228, 72, 72)";
+//         console.log("Second Player Position");
+//         console.log(Game.playerSignArray);
+//         console.log("------------------------------------------------------ player Two");
+//     }
+// }
+
 cell.forEach(cells => {
-    cells.addEventListener("click", PlayGame, { once: true }); // Third Parameter - Makes selection once per player
+    cells.addEventListener("click", PlayGamePVE, { once: true }); // Third Parameter - Makes selection once per player
 })
 
-function PlayGame(e) {
-    // this here is cells 
+
+
+function PlayGamePVE(e) {
+    console.log(this) // this = cells
     signArray = Game.gameBoard; // to make playerOne select "x" after restart
-    // console.log(`playerOneScore ${playerOneScore}`)
-    // console.log(`playerTwoScore ${playerTwoScore}`)
-    // console.log(`SignArray Before the flip`);
-    // console.log(signArray);
-
     roundsPlayed++; // for draw condition 
-    console.log(`ArrayLength : ${roundsPlayed}`);
-
     cellPosition = e.target.id; // id of the html element
     cellPosition = +cellPosition; // + converts the string to int
     Game.idSignArray[cellPosition] = cellPosition; // insert the value to array at specific position
+    console.log(`ArrayLength : ${roundsPlayed}`);
 
-    // console.log(`Cell Position : ${cellPosition}`)
-    // console.log(Game.idSignArray);
 
-    // Player Switching
-    if (!isSwitchSign) { // Player One
-        isSwitchSign = true
-        Game.swapElement(signArray);
-        this.textContent = signArray[0]; // select the first sign item and then flips it
-        playerOne.sign = this.textContent;
-        Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
-        gameLogic(playerOne, scoreOne);
-        console.log("First Player Position");
-        // this.style.color = "rgb(131, 130, 130)";
-        this.style.color = "rgb(90, 90, 230)";
-        // this.style.backgroundColor = "azure";
+    // Player Selecting with X
+    Game.swapElement(signArray);
+    this.textContent = signArray[0]; // select the first sign item and then flips it
+    playerOne.sign = this.textContent;
+    Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
+    gameLogic(playerOne, scoreOne);
 
-        // console.log(`SignArray After the flip`);
-        // console.log(signArray);
-        console.log("------------------------------------------------------");
-    }
-    else { // Player Two
-        isSwitchSign = false;
-        Game.swapElement(signArray);
-        this.textContent = signArray[0]; // select the first sign item and then flips it
-        playerTwo.sign = this.textContent;
-        Game.playerSignArray[cellPosition] = playerTwo.sign;
-        gameLogic(playerTwo, scoreTwo);
-        console.log("Second Player Position");
-        this.style.color = "rgb(228, 72, 72)";
+    // console.log(`SignArray After the flip`);
+    this.style.color = "rgb(90, 90, 230)";
+    console.log("First Player Position");
+    console.log(Game.playerSignArray);
+    console.log("------------------------------------------------------ Player One ");
+    console.log(signArray);
 
-        // console.log(`SignArray After the flip`);
-        // console.log(signArray);
-        console.log("------------------------------------------------------");
-    }
+    // AI Selecting With O
+    const randomNum = Math.ceil((Math.random() * 9)); //used ceil than floor cause nth-child starts from 1 not 0
+    console.log(`This is randomNumber: ${randomNum}`);         //fix don't replace playerOne and playerTwo value when randomizing
+    Game.swapElement(signArray);
+    let AI = document.querySelector('.cell:nth-child(' + (randomNum) + ')')
+    AI.textContent = signArray[0];
+
+    let AICellPosition = AI.id;
+    AICellPosition = +AICellPosition;
+    playerTwo.sign = AI.textContent;
+    Game.playerSignArray[AICellPosition] = playerTwo.sign; // insert the value to array at specific position
+    console.log(AI.textContent);
+    console.log(Game.playerSignArray);
+    console.log(signArray);
+    console.log("------------------------------------------------------ Player Two ");
+
+
+    // // Player Switching
+    // if (!isSwitchSign) { // Player One
+    //     isSwitchSign = true
+    // }
+    // else { // Player Two [ //give a random position to playerTwo.sign [automatically work when player plays]]
+    //     isSwitchSign = false;
+    //     Game.swapElement(signArray);
+    //     this.textContent = signArray[0]; // select the first sign item and then flips it
+    //     playerTwo.sign = this.textContent; // selects o for second player
+    //     Game.playerSignArray[cellPosition] = playerTwo.sign;
+    //     gameLogic(playerTwo, scoreTwo);
+
+    //     // console.log(`SignArray After the flip`);
+    //     this.style.color = "rgb(228, 72, 72)";
+    //     console.log("Second Player Position");
+    //     console.log(Game.playerSignArray);
+    //     console.log("------------------------------------------------------ player Two");
+    // }
 }
+
 
 function gameLogic(player, playerUI) {
     if (!isDraw) {
@@ -188,14 +254,14 @@ function roundScore(player, playerUI) {
         playerUI.textContent = playerOneScore;
         scoreOne.style.color = "springgreen";
         scoreOne.style.transform = "scale(3.5)";
-        console.log(`PlayerOne : ${playerOneScore}`);
+        console.log(`PlayerOne: ${playerOneScore} `);
     }
     else if (player === playerTwo) {
         playerTwoScore++;
         playerUI.textContent = playerTwoScore;
-        scoreOne.style.color = "springgreen";
-        scoreOne.style.transform = "scale(3.5)";
-        console.log(`PlayerTwo : ${playerTwoScore}`);
+        scoreTwo.style.color = "springgreen";
+        scoreTwo.style.transform = "scale(3.5)";
+        console.log(`PlayerTwo: ${playerTwoScore} `);
     }
 }
 
@@ -215,7 +281,7 @@ function restartGame() {
 function reset() {
     for (let cells of cell) {
         console.clear();
-        cells.removeEventListener("click", PlayGame, { once: true });
+        cells.removeEventListener("click", PlayGamePVP, { once: true });
         cells.textContent = "";
         roundsPlayed = 0;
         Game.playerSignArray = [];
@@ -237,12 +303,14 @@ function reset() {
 
         scoreOne.style.color = "white";
         scoreOne.style.transform = "scale(1)";
+        scoreTwo.style.color = "white";
+        scoreTwo.style.transform = "scale(1)";
 
         winnerUi.style.visibility = "hidden";
         winnerUi.style.opacity = 0;
         console.log(Game.playerSignArray);
 
-        cells.addEventListener("click", PlayGame, { once: true });
+        cells.addEventListener("click", PlayGamePVP, { once: true });
 
 
     }
@@ -250,7 +318,7 @@ function reset() {
 
 function resetLevel(player) {
     for (let cells of cell) {
-        cells.removeEventListener("click", PlayGame, { once: true });      //stops the game
+        cells.removeEventListener("click", PlayGamePVP, { once: true });      //stops the game
         winnerUi.textContent = `${player.name} is the Winner`;
         winnerUi.style.visibility = "visible";
         winnerUi.style.opacity = 100;
@@ -261,7 +329,7 @@ function resetLevel(player) {
 
 function resetLevelDraw(player) {
     for (let cells of cell) {
-        cells.removeEventListener("click", PlayGame, { once: true });      //stops the game
+        cells.removeEventListener("click", PlayGamePVP, { once: true });      //stops the game
         winnerUi.textContent = `Level Ended in a Draw`;
         winnerUi.style.visibility = "visible";
         winnerUi.style.opacity = 100;
@@ -308,6 +376,11 @@ menuBtn.addEventListener("click", e => {
     restartGame();
 });
 
+
+// let niceeee = [1, 2, 3, 4, 5];
+// let soice = niceeee[Math.floor(Math.random() * 5)];
+// console.log(soice);
+
 // function DisplaySign() {
 //     for (let cells of cell) {
 //         cells.addEventListener("click", e => {
@@ -338,7 +411,7 @@ menuBtn.addEventListener("click", e => {
     //         // switchPlayer()
     //         eachPieces.textContent = sign[1];
     //         playerTwo.textContent = sign.textContent;
-    //         console.log(`The Sign is :${sign}`);
+    //         console.log(`The Sign is:${ sign } `);
     //         console.log(playerTwo);
     //     }
     //     else {
