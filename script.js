@@ -19,7 +19,6 @@ const sixthCell = document.getElementById("7")
 const seventhCell = document.getElementById("8")
 const eightCell = document.getElementById("9")
 
-
 const Game = {
     gameBoard: ["x", "o"], // change this on PvP
     swapElement(array) { // to swap the value using destructor
@@ -34,16 +33,16 @@ const createPlayer = function (name) {
     return { name };
 }
 
-let signArray; // selecting the sign
 let playerOne = createPlayer("Player One");
 let playerTwo = createPlayer("Player Two");
-let isSwitchSign = false; // to switch player
+let signArray; // Game.Board
+let isSwitchSign = false; // Check player switch
+let isDraw = false; // Check for draw
+let isOver = false; // Manual Game restart
 let cellPosition = 0;
 let roundsPlayed = 0;
-let isDraw = false; // checking for draw
 let playerOneScore = 0;
 let playerTwoScore = 0;
-let isOver = false;
 
 
 const winnerUi = document.createElement("div");
@@ -53,55 +52,41 @@ section.append(winnerUi);
 // winnerUi.style.visibility = "visible";
 // winnerUi.style.opacity = 100;
 
+// --------- PVP Logic Function-------------- //
 // cell.forEach(cells => {
 //     cells.addEventListener("click", PlayGamePVP, { once: true }); // Third Parameter - Makes selection once per player
+//     menuBtnPvP();
 // })
 
 // function PlayGamePVP(e) {
 //     console.log(this)// this = cells
 //     signArray = Game.gameBoard; // to make playerOne select "x" after restart
-//     // console.log(`playerOneScore ${playerOneScore}`)
-//     // console.log(`playerTwoScore ${playerTwoScore}`)
-//     // console.log(`SignArray Before the flip`);
-//     // console.log(signArray);
-
 //     roundsPlayed++; // for draw condition
-//     console.log(`ArrayLength : ${roundsPlayed}`);
-
 //     cellPosition = e.target.id; // id of the html element
 //     cellPosition = +cellPosition; // + converts the string to int
 //     Game.idSignArray[cellPosition] = cellPosition; // insert the value to array at specific position
 
-//     // console.log(`Cell Position : ${cellPosition}`)
-//     // console.log(Game.idSignArray);
-
 //     // Player Switching
 //     if (!isSwitchSign) { // Player One
-//         isSwitchSign = true
-//         Game.swapElement(signArray);
+//         isSwitchSign = true;
 //         this.textContent = signArray[0]; // select the first sign item and then flips it
 //         playerOne.sign = this.textContent;
 //         Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
 //         gameLogic(playerOne, scoreOne);
-
-//         // console.log(`SignArray After the flip`);
 //         this.style.color = "rgb(90, 90, 230)";
+
 //         console.log("First Player Position");
 //         console.log(Game.playerSignArray);
 //         console.log("------------------------------------------------------ PLayer One ");
-
 //     }
-//     else { // Player Two [ //give a random position to playerTwo.sign [automatically work when player plays]]
-
+//     else {
 //         isSwitchSign = false;
-//         Game.swapElement(signArray);
-//         this.textContent = signArray[0]; // select the first sign item and then flips it
-//         playerTwo.sign = this.textContent; // selects o for second player
+//         this.textContent = signArray[1];
+//         playerTwo.sign = this.textContent;
 //         Game.playerSignArray[cellPosition] = playerTwo.sign;
 //         gameLogic(playerTwo, scoreTwo);
-
-//         // console.log(`SignArray After the flip`);
 //         this.style.color = "rgb(228, 72, 72)";
+
 //         console.log("Second Player Position");
 //         console.log(Game.playerSignArray);
 //         console.log("------------------------------------------------------ player Two");
@@ -111,21 +96,21 @@ section.append(winnerUi);
 // function gameLogic(player, playerUI) {
 //     if (!isDraw) {
 //         // Horizontal Chance
-//         if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign) {
+//         if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign && Game.playerSignArray[3] === player.sign) {
 //             isDraw = true;
 //             roundScore(player, playerUI);
 //             resetLevel(player);
 //             WinnerColorChange(zerothCell, firstCell, secondCell);
 //         }
 
-//         else if (Game.playerSignArray[3] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[5] === player.sign) {
+//         else if (Game.playerSignArray[4] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[6] === player.sign) {
 //             isDraw = true;
 //             roundScore(player, playerUI);
 //             resetLevel(player);
 //             WinnerColorChange(thirdCell, fourthCell, fifthCell);
 
 //         }
-//         else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[7] === player.sign && Game.playerSignArray[8] === player.sign) {
+//         else if (Game.playerSignArray[7] === player.sign && Game.playerSignArray[8] === player.sign && Game.playerSignArray[9] === player.sign) {
 //             isDraw = true;
 //             roundScore(player, playerUI);
 //             resetLevel(player);
@@ -134,20 +119,20 @@ section.append(winnerUi);
 //         }
 
 //         // Vertical Chance
-//         else if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[3] === player.sign && Game.playerSignArray[6] === player.sign) {
+//         else if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[7] === player.sign) {
 //             isDraw = true;
 //             roundScore(player, playerUI);
 //             resetLevel(player);
 //             WinnerColorChange(zerothCell, thirdCell, sixthCell);
 
 //         }
-//         else if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[7] === player.sign) {
+//         else if (Game.playerSignArray[2] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[8] === player.sign) {
 //             isDraw = true;
 //             roundScore(player, playerUI);
 //             resetLevel(player);
 //             WinnerColorChange(firstCell, fourthCell, seventhCell);
 //         }
-//         else if (Game.playerSignArray[2] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[8] === player.sign) {
+//         else if (Game.playerSignArray[3] === player.sign && Game.playerSignArray[6] === player.sign && Game.playerSignArray[9] === player.sign) {
 //             isDraw = true;
 //             roundScore(player, playerUI);
 //             resetLevel(player);
@@ -155,31 +140,102 @@ section.append(winnerUi);
 //         }
 
 //         // Diagonal Chance
-//         else if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[8] === player.sign) {
+//         else if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[9] === player.sign) {
 //             isDraw = true;
 //             roundScore(player, playerUI);
 //             resetLevel(player);
 //             WinnerColorChange(zerothCell, fourthCell, eightCell);
 //         }
-//         else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[2] === player.sign) {
+//         else if (Game.playerSignArray[7] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[3] === player.sign) {
 //             isDraw = true;
 //             roundScore(player, playerUI);
 //             resetLevel(player);
 //             WinnerColorChange(sixthCell, fourthCell, secondCell);
 //         }
-
 //         // Draw
 //         else if (roundsPlayed === 9) {
 //             isDraw = false;
 //             resetLevelDraw(player);
 //         }
 //     }
+// }
 
-// };
+// function resetLevel(player) {
+//     for (let cells of cell) {
+//         cells.removeEventListener("click", PlayGamePVP, { once: true });      //stops the game
+//         winnerUi.textContent = `${player.name} is the Winner`;
+//         winnerUi.style.visibility = "visible";
+//         winnerUi.style.opacity = 100;
+//         // restartLevelManually();
+//     }
+//     setTimeout(reset, 1300);              // dynamic restart
+// }
 
+// function resetLevelDraw() {
+//     for (let cells of cell) {
+//         cells.removeEventListener("click", PlayGamePVP, { once: true });      //stops the game
+//         winnerUi.textContent = `Level Ended in a Draw`;
+//         winnerUi.style.visibility = "visible";
+//         winnerUi.style.opacity = 100;
+//         // restartLevelManually();
+//     }
+//     setTimeout(reset, 1300);              // dynamic restart
+// }
 
+// function reset() {
+//     for (let cells of cell) {
+//         console.clear();
+//         cells.removeEventListener("click", PlayGamePVP, { once: true });
+//         cells.textContent = "";
+//         roundsPlayed = 0;
+//         Game.playerSignArray = [];
+//         Game.idSignArray = [];
+//         isSwitchSign = false;
+//         isDraw = false;
+//         Game.gameBoard = ["x", "o"];
+//         // winnerUi.textContent = ""; // transition won't work
+
+//         zerothCell.style.backgroundColor = "white";
+//         firstCell.style.backgroundColor = "white";
+//         secondCell.style.backgroundColor = "white";
+//         thirdCell.style.backgroundColor = "white";
+//         fourthCell.style.backgroundColor = "white";
+//         fifthCell.style.backgroundColor = "white";
+//         sixthCell.style.backgroundColor = "white";
+//         seventhCell.style.backgroundColor = "white";
+//         eightCell.style.backgroundColor = "white";
+
+//         scoreOne.style.color = "white";
+//         scoreOne.style.transform = "scale(1)";
+//         scoreTwo.style.color = "white";
+//         scoreTwo.style.transform = "scale(1)";
+
+//         winnerUi.style.visibility = "hidden";
+//         winnerUi.style.opacity = 0;
+//         console.log(Game.playerSignArray);
+
+//         cells.addEventListener("click", PlayGamePVP, { once: true });
+//     }
+// }
+
+// function menuBtnPvP() {
+//     menuBtn.addEventListener("click", e => {
+//         startBtnDiv.style.visibility = "visible";
+//         startBtn.style.visibility = "visible";
+//         for (let spans of span) { //startButton Styling
+//             spans.style.opacity = 100;
+//         }
+//         section.style.visibility = "hidden";
+//         section.style.opacity = 0;
+//         reset();
+//         restartGame();
+//     });
+// }
+
+//--------- PVE Logic Function--------------
 cell.forEach(cells => {
     cells.addEventListener("click", playGamePVE, { once: true }); // Third Parameter - Makes selection once per player
+    menuBtnPvE();
 })
 
 function playGamePVE(e) {
@@ -195,14 +251,14 @@ function playGamePVE(e) {
         if (indexPlayer > -1) {  // only splice array when item is found
             Game.randomNumArray.splice(indexPlayer, 1);
         }
-        roundsPlayed++; // for draw condition 
-        this.textContent = signArray[0]; // select the first sign item 
+        roundsPlayed++; // for draw condition
+        this.textContent = signArray[0]; // select the first sign item
         playerOne.sign = this.textContent;
         Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
         gameLogicPVE(playerOne, scoreOne);
         this.style.color = "rgb(90, 90, 230)";
 
-        // // ------------------------ AI ------------------------ // 
+        // // ------------------------ AI ------------------------ //
 
         console.log("AI ----------------");
         if (roundsPlayed < 5) {
@@ -240,21 +296,21 @@ function gameLogicPVE(player, playerUI) {
         if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign && Game.playerSignArray[3] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            // resetLevelPVE(player);
+            resetLevelPVE(player);
             WinnerColorChange(zerothCell, firstCell, secondCell);
         }
 
         else if (Game.playerSignArray[4] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[6] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            // resetLevelPVE(player);
+            resetLevelPVE(player);
             WinnerColorChange(thirdCell, fourthCell, fifthCell);
 
         }
         else if (Game.playerSignArray[7] === player.sign && Game.playerSignArray[8] === player.sign && Game.playerSignArray[9] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            // resetLevelPVE(player);
+            resetLevelPVE(player);
             WinnerColorChange(sixthCell, seventhCell, eightCell);
 
         }
@@ -263,20 +319,20 @@ function gameLogicPVE(player, playerUI) {
         else if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[7] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            // resetLevelPVE(player);
+            resetLevelPVE(player);
             WinnerColorChange(zerothCell, thirdCell, sixthCell);
 
         }
         else if (Game.playerSignArray[2] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[8] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            // resetLevelPVE(player);
+            resetLevelPVE(player);
             WinnerColorChange(firstCell, fourthCell, seventhCell);
         }
         else if (Game.playerSignArray[3] === player.sign && Game.playerSignArray[6] === player.sign && Game.playerSignArray[9] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            // resetLevelPVE(player);
+            resetLevelPVE(player);
             WinnerColorChange(secondCell, fifthCell, eightCell);
         }
 
@@ -284,37 +340,102 @@ function gameLogicPVE(player, playerUI) {
         else if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[9] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            // resetLevelPVE(player);
+            resetLevelPVE(player);
             WinnerColorChange(zerothCell, fourthCell, eightCell);
         }
         else if (Game.playerSignArray[7] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[3] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            // resetLevelPVE(player);
+            resetLevelPVE(player);
             WinnerColorChange(sixthCell, fourthCell, secondCell);
         }
 
         // Draw
         else if (roundsPlayed === 5) {
             isDraw = false;
-            // resetLevelDraw(player);
+            DrawLevelPVE();
         }
     }
 
 };
 
-function resetLevel(player) {
+function resetLevelPVE(player) {
     for (let cells of cell) {
-        cells.removeEventListener("click", PlayGamePVP, { once: true });      //stops the game
+        cells.removeEventListener("click", playGamePVE, { once: true });      //stops the game
         winnerUi.textContent = `${player.name} is the Winner`;
         winnerUi.style.visibility = "visible";
         winnerUi.style.opacity = 100;
         // restartLevelManually();
     }
-    setTimeout(reset, 1300);              // dynamic restart
+    setTimeout(resetPVE, 1300);              // dynamic restart
 }
 
+function DrawLevelPVE() {
+    for (let cells of cell) {
+        cells.removeEventListener("click", playGamePVE, { once: true });      //stops the game
+        winnerUi.textContent = `Level Ended in a Draw`;
+        winnerUi.style.visibility = "visible";
+        winnerUi.style.opacity = 100;
+        // restartLevelManually();
+    }
+    setTimeout(resetPVE, 1300);              // dynamic restart
+}
 
+function resetPVE() {
+    for (let cells of cell) {
+        console.clear();
+        cells.removeEventListener("click", playGamePVE, { once: true });
+        cells.textContent = "";
+        roundsPlayed = 0;
+        Game.playerSignArray = [];
+        Game.idSignArray = [];
+        Game.randomNumArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        isSwitchSign = false;
+        isDraw = false;
+        // winnerUi.textContent = ""; // transition won't work
+
+        zerothCell.style.backgroundColor = "white";
+        firstCell.style.backgroundColor = "white";
+        secondCell.style.backgroundColor = "white";
+        thirdCell.style.backgroundColor = "white";
+        fourthCell.style.backgroundColor = "white";
+        fifthCell.style.backgroundColor = "white";
+        sixthCell.style.backgroundColor = "white";
+        seventhCell.style.backgroundColor = "white";
+        eightCell.style.backgroundColor = "white";
+
+        cell.forEach(cells => {
+            cells.style.color = "rgb(228, 72, 72)";
+        })
+
+        scoreOne.style.color = "white";
+        scoreOne.style.transform = "scale(1)";
+        scoreTwo.style.color = "white";
+        scoreTwo.style.transform = "scale(1)";
+
+        winnerUi.style.visibility = "hidden";
+        winnerUi.style.opacity = 0;
+        console.log(Game.playerSignArray);
+
+        cells.addEventListener("click", playGamePVE, { once: true });
+    }
+}
+
+function menuBtnPvE() {
+    menuBtn.addEventListener("click", e => {
+        startBtnDiv.style.visibility = "visible";
+        startBtn.style.visibility = "visible";
+        for (let spans of span) { //startButton Styling
+            spans.style.opacity = 100;
+        }
+        section.style.visibility = "hidden";
+        section.style.opacity = 0;
+        resetPVE();
+        restartGame();
+    });
+}
+
+////---------Common Function//---------
 function roundScore(player, playerUI) {
     if (player === playerOne) {
         playerOneScore++;
@@ -345,79 +466,6 @@ function restartGame() {
     playerTwoScore = 0;
 }
 
-function reset() {
-    for (let cells of cell) {
-        console.clear();
-        cells.removeEventListener("click", PlayGamePVP, { once: true });
-        cells.textContent = "";
-        roundsPlayed = 0;
-        Game.playerSignArray = [];
-        Game.idSignArray = [];
-        isSwitchSign = false;
-        isDraw = false;
-        Game.gameBoard = ["o", "x"];
-        // winnerUi.textContent = ""; // transition won't work
-
-        zerothCell.style.backgroundColor = "white";
-        firstCell.style.backgroundColor = "white";
-        secondCell.style.backgroundColor = "white";
-        thirdCell.style.backgroundColor = "white";
-        fourthCell.style.backgroundColor = "white";
-        fifthCell.style.backgroundColor = "white";
-        sixthCell.style.backgroundColor = "white";
-        seventhCell.style.backgroundColor = "white";
-        eightCell.style.backgroundColor = "white";
-
-        scoreOne.style.color = "white";
-        scoreOne.style.transform = "scale(1)";
-        scoreTwo.style.color = "white";
-        scoreTwo.style.transform = "scale(1)";
-
-        winnerUi.style.visibility = "hidden";
-        winnerUi.style.opacity = 0;
-        console.log(Game.playerSignArray);
-
-        cells.addEventListener("click", PlayGamePVP, { once: true });
-
-    }
-}
-
-function resetLevel(player) {
-    for (let cells of cell) {
-        cells.removeEventListener("click", PlayGamePVP, { once: true });      //stops the game
-        winnerUi.textContent = `${player.name} is the Winner`;
-        winnerUi.style.visibility = "visible";
-        winnerUi.style.opacity = 100;
-        // restartLevelManually();
-    }
-    setTimeout(reset, 1300);              // dynamic restart
-}
-
-function resetLevelDraw(player) {
-    for (let cells of cell) {
-        cells.removeEventListener("click", PlayGamePVP, { once: true });      //stops the game
-        winnerUi.textContent = `Level Ended in a Draw`;
-        winnerUi.style.visibility = "visible";
-        winnerUi.style.opacity = 100;
-        // restartLevelManually();
-    }
-    setTimeout(reset, 1300);              // dynamic restart
-}
-
-function restartLevelManually() {
-    for (let cells of cell) {
-        isOver = false; // reset Game Over to false     // manual restart
-        cells.addEventListener("click", e => {
-            if (!isOver) {
-                reset();
-                isOver = true;
-
-            }
-        })
-    }
-}
-
-
 startBtn.addEventListener("click", e => {
     startBtnDiv.style.visibility = "hidden";
     startBtn.style.visibility = "hidden";
@@ -429,19 +477,19 @@ startBtn.addEventListener("click", e => {
     section.style.opacity = 100;
 })
 
-menuBtn.addEventListener("click", e => {
-    startBtnDiv.style.visibility = "visible";
-    startBtn.style.visibility = "visible";
-    for (let spans of span) { //startButton Styling
-        spans.style.opacity = 100;
+function restartLevelManually() {
+    for (let cells of cell) {
+        isOver = false; // reset Game Over to false     // manual restart
+        cells.addEventListener("click", e => {
+            if (!isOver) {
+                reset();
+                isOver = true;
+            }
+        })
     }
-    section.style.visibility = "hidden";
-    section.style.opacity = 0;
-    reset();
-    restartGame();
-});
+}
 
-
+// Trail And Error //
 // let niceeee = [1, 2, 3, 4, 5];
 // let soice = niceeee[Math.floor(Math.random() * 5)];
 // console.log(soice);
@@ -554,3 +602,8 @@ menuBtn.addEventListener("click", e => {
 //         })
 //     }
 // }
+
+
+
+
+
