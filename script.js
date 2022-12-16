@@ -29,7 +29,7 @@ const Game = {
     },
     playerSignArray: [],
     idSignArray: [],
-    randomNumArray: []
+    randomNumArray: [0, 1, 2, 3, 4, 5, 6, 7, 8]
 }
 
 const createPlayer = function (name) {
@@ -117,35 +117,58 @@ cell.forEach(cells => {
 
 function PlayGamePVE(e) {
     // ------------------------Player One  ------------------------ //
-    console.log("Player One -------------");
+    // console.log("Player One -------------");
+
+    Game.gameBoard = ["x", "o"]
     signArray = Game.gameBoard; // to make playerOne select "x" after restart
-    cellPosition = e.target.id; // id of the html element
-    Game.swapElement(signArray);
-    cellPosition = +cellPosition; // + converts the string to int
-    roundsPlayed++; // for draw condition 
-    this.textContent = signArray[0]; // select the first sign item and then flips it
-    playerOne.sign = this.textContent;
-    Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
-    gameLogicPVE(playerOne, scoreOne);
-    this.style.color = "rgb(90, 90, 230)";
+    // cellPosition = e.target.id; // id of the html element
+    // cellPosition = +cellPosition; // + converts the string to int
 
-    console.log(Game.playerSignArray);
+    // console.log(Game.randomNumArray);
+    // console.log(`This is Cell Position: ${cellPosition}`)
+    // const indexCell = Game.randomNumArray.indexOf(cellPosition);
+    // console.log(indexCell);
+    // if (indexCell > -1) { // only splice array when item is found
+    //     Game.randomNumArray.splice(indexCell, 1);
+    // }
+    // console.log(Game.randomNumArray);
 
-    // ------------------------ AI ------------------------ //
-    //// Random number should not be the same number as cellPosition[fix this]
-    console.log("Player Two ----------------");
-    let randomNumPosition = Math.ceil((Math.random() * 9));
+    // // // Game.swapElement(signArray);
+    // roundsPlayed++; // for draw condition 
+    // this.textContent = signArray[0]; // select the first sign item and then flips it
+    // playerOne.sign = this.textContent;
+    // Game.playerSignArray[cellPosition] = playerOne.sign; // insert the value to array at specific position
+    // gameLogicPVE(playerOne, scoreOne);
+    // this.style.color = "rgb(90, 90, 230)";
+    // console.log(Game.playerSignArray);
+
+
+    // // ------------------------ AI ------------------------ // 
+    console.log("AI ----------------");
+
+    // Non Duplicate RandomNumber
+    let randomNumPosition = Game.randomNumArray[Math.floor((Math.random() * Game.randomNumArray.length))];
+    const index = Game.randomNumArray.indexOf(randomNumPosition);
+    if (index > -1) { // only splice array when item is found
+        Game.randomNumArray.splice(index, 1);
+    }
+    console.log(Game.randomNumArray);
+    console.log(index);
+
     let AI = document.querySelector('.cell:nth-child(' + (randomNumPosition) + ')');
-    let AICellPosition = AI.id;
+    // let AICellPosition = AI.id;
+    let AICellPosition = e.target.id;
     Game.swapElement(signArray)
     AI.textContent = signArray[0];
     AICellPosition = +AICellPosition;
     playerTwo.sign = AI.textContent;
-    Game.randomNumArray.push(randomNumPosition);
-    if (randomNumPosition.textContent !== "o") {
-        Game.playerSignArray[AICellPosition] = playerTwo.sign; // stop overwriting already selected cellPosition
-    }
 
+    // if (randomNumPosition.textContent !== "o") {
+    Game.playerSignArray[AICellPosition] = playerTwo.sign; // stop overwriting already selected cellPosition
+    // }
+
+    console.log(`playerTwo.sign is ${playerTwo.sign}`);
+    console.log(signArray)
     console.log(randomNumPosition);
     console.log(Game.randomNumArray);
     console.log(Game.playerSignArray);
@@ -159,21 +182,21 @@ function gameLogicPVE(player, playerUI) {
         if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[1] === player.sign && Game.playerSignArray[2] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            resetLevelPVE(player);
+            // resetLevelPVE(player);
             WinnerColorChange(zerothCell, firstCell, secondCell);
         }
 
         else if (Game.playerSignArray[3] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[5] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            resetLevelPVE(player);
+            // resetLevelPVE(player);
             WinnerColorChange(thirdCell, fourthCell, fifthCell);
 
         }
         else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[7] === player.sign && Game.playerSignArray[8] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            resetLevelPVE(player);
+            // resetLevelPVE(player);
             WinnerColorChange(sixthCell, seventhCell, eightCell);
 
         }
@@ -182,20 +205,20 @@ function gameLogicPVE(player, playerUI) {
         else if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[3] === player.sign && Game.playerSignArray[6] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            resetLevelPVE(player);
+            // resetLevelPVE(player);
             WinnerColorChange(zerothCell, thirdCell, sixthCell);
 
         }
         else if (Game.playerSignArray[1] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[7] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            resetLevelPVE(player);
+            // resetLevelPVE(player);
             WinnerColorChange(firstCell, fourthCell, seventhCell);
         }
         else if (Game.playerSignArray[2] === player.sign && Game.playerSignArray[5] === player.sign && Game.playerSignArray[8] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            resetLevelPVE(player);
+            // resetLevelPVE(player);
             WinnerColorChange(secondCell, fifthCell, eightCell);
         }
 
@@ -203,20 +226,20 @@ function gameLogicPVE(player, playerUI) {
         else if (Game.playerSignArray[0] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[8] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            resetLevelPVE(player);
+            // resetLevelPVE(player);
             WinnerColorChange(zerothCell, fourthCell, eightCell);
         }
         else if (Game.playerSignArray[6] === player.sign && Game.playerSignArray[4] === player.sign && Game.playerSignArray[2] === player.sign) {
             isDraw = true;
             roundScore(player, playerUI);
-            resetLevelPVE(player);
+            // resetLevelPVE(player);
             WinnerColorChange(sixthCell, fourthCell, secondCell);
         }
 
         // Draw
         else if (roundsPlayed === 9) {
             isDraw = false;
-            resetLevelDraw(player);
+            // resetLevelDraw(player);
         }
     }
 
