@@ -1,0 +1,225 @@
+@use "../utilities/" as ut;
+
+@mixin gameBoardHeight($height) {
+  height: $height;
+}
+
+h2 {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 2.5rem;
+  color: var(--font-color);
+  @include ut.breakpoint(xLarge) {
+    font-size: 2.2rem;
+  }
+  @include ut.breakpoint(larger) {
+    font-size: 1.8rem;
+  }
+  @include ut.breakpoint(large) {
+    font-size: 1.5rem;
+  }
+  @include ut.breakpoint(medium) {
+    font-size: 1.2rem;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all var(--transition-Time);
+}
+
+.menu {
+  &Div {
+    transition: var(--transition-Time);
+    display: flex;
+    justify-content: flex-start;
+  }
+  &Btn {
+    cursor: pointer;
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    padding: 5px;
+    border: 2px solid rgb(15, 15, 15);
+    transition: all 0.3s;
+    margin: 5px;
+  }
+}
+
+.display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  @include ut.breakpoint(xLarge) {
+    display: flex;
+    gap: 40px;
+  }
+  @include ut.breakpoint(larger) {
+    display: flex;
+    gap: 40px;
+  }
+  @include ut.breakpoint(large) {
+    display: flex;
+    gap: 10px;
+  }
+  @include ut.breakpoint(medium) {
+    display: grid;
+    gap: 10px;
+  }
+}
+
+.playerOneScore,
+.playerTwoScore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score {
+  &One {
+    font-size: 2rem;
+    color: var(--font-color);
+    transition: var(--transition-Time);
+  }
+  &Two {
+    font-size: 2rem;
+    color: var(--font-color);
+    transition: var(--transition-Time);
+  }
+  &Scale {
+    transform: scale(2.2);
+    @include ut.breakpoint(xLarge) {
+      transform: scale(1.8);
+    }
+  }
+}
+
+.gameBoard {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  background-color: rgb(82, 74, 74);
+  @include ut.breakpoint(larger) {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    width: 600px;
+  }
+  @include ut.breakpoint(large) {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    width: 460px;
+  }
+  @include ut.breakpoint(medium) {
+    grid-template-columns: repeat(3, minmax(50px, 1fr));
+    margin: 0 auto;
+    width: 300px;
+  }
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+  font-size: 7rem;
+  height: 200px;
+  color: rgb(228, 72, 72);
+  opacity: 100;
+  transition: all 0.3s;
+  @include ut.breakpoint(larger) {
+    height: 180px;
+    font-size: 6rem;
+  }
+  @include ut.breakpoint(large) {
+    height: 150px;
+    font-size: 5rem;
+  }
+  @include ut.breakpoint(medium) {
+    height: 140px;
+    font-size: 4rem;
+  }
+  &:hover {
+    border-left: none;
+    border-top: none;
+    transform: scale(0.9);
+  }
+  &:active {
+    transition: all 1s;
+  }
+}
+
+.anim {
+  animation: transitionIn 1s;
+}
+
+@keyframes transitionIn {
+  from {
+    opacity: 0;
+    transform: rotateX(-10deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateX(0);
+  }
+}
+
+.winnerUi {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  font-size: 6rem;
+  color: var(--font-color);
+  visibility: hidden;
+  opacity: 0;
+  transition: all var(--transition-Time);
+  @include ut.breakpoint(xLarge) {
+    font-size: 5rem;
+  }
+  @include ut.breakpoint(larger) {
+    font-size: 4rem;
+  }
+  @include ut.breakpoint(large) {
+    font-size: 3rem;
+  }
+  @include ut.breakpoint(medium) {
+    font-size: 1.5rem;
+  }
+  &__visible {
+    visibility: visible;
+    opacity: 100;
+  }
+}
+
+.gameOverUI {
+  visibility: visible;
+  opacity: 100;
+  color: black;
+  background: rgb(255 255 255);
+  border: 2px solid black;
+  border-radius: 20px;
+  margin: 50px auto;
+  width: 90%;
+  font-size: 4rem;
+  @include ut.breakpoint(xLarge) {
+    font-size: 4rem;
+  }
+  @include ut.breakpoint(larger) {
+    font-size: 3rem;
+  }
+  @include ut.breakpoint(large) {
+    font-size: 2.3rem;
+  }
+  @include ut.breakpoint(medium) {
+    font-size: 1.2rem;
+    padding: 5px;
+  }
+}
